@@ -1,9 +1,6 @@
 package com.rjnthree;
 
-import java.sql.Connection;
-import java.util.List;
 import java.util.Optional;
-import java.util.OptionalLong;
 
 import com.rjnthree.RouteConstants.PATHPARAM;
 import org.jdbi.v3.core.Jdbi;
@@ -26,10 +23,12 @@ public class DisplayRoute implements Route {
                     .orElseThrow(() -> new Exception("You need to provide the parameter: " + PATHPARAM.AFTER_DATE));
             afterDate = Long.parseLong(afterDateString);
         } catch (NumberFormatException e) {
-            throw new Exception(PATHPARAM.AFTER_DATE + " parameter needs to be a long value");
+            throw new Exception(PATHPARAM.AFTER_DATE + " parameter which is "
+                    + request.params(PATHPARAM.AFTER_DATE)
+                    + " needs to be a long value");
         }
 
-        return jdbi.withExtension( MessageDao.class,
+        return jdbi.withExtension(MessageDao.class,
                 messageDao -> messageDao.listMessage(afterDate));
     }
 }

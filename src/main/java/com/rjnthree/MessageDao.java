@@ -11,7 +11,7 @@ public interface MessageDao {
     @SqlUpdate("INSERT INTO message(author, message) VALUES (:id, :name)")
     void insertMessage(@Bind("author") String author, @Bind("message_content") String content);
 
-    @SqlQuery("SELECT * FROM message where date > :after_date")
+    @SqlQuery("SELECT * FROM message where date > FROM_UNIXTIME(:after_date)")
     @RegisterConstructorMapper(Message.class)
     List<Message> listMessage(@Bind("after_date") long afterDate);
 }
