@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="css/style.css" rel="stylesheet">
+    <script src="jquery-3.4.1.min.js"></script>
+    <script src="scripts/entry_script.js"></script>
+</head>
+<body>
+<div id="root">
+    <form id="entryform" name="entryform">
+        <h3>New Message</h3>
+        <div>
+            <label>Person Making Entry:</label>
+            <select id="author">
+                <option value="rich">Rich Nordin</option>
+                <option value="anya">Anya Nuttz</option>
+                <option value="adam">Adam Fearing</option>
+                <option value="bren">Brendan Dehomme</option>
+                <option value="james">James Cerne</option>
+                <option value="matheus">Matheus Cabral</option>
+            </select>
+            <label>Message:</label>
+            <input id="message_contents" type="text" maxlength=280>
+            <input id="submit" onclick="newMessage();return false;" type="button" value="submit">
+        </div>
+    </form>
+    <div id="clear"></div>
+</div>
+<div id="clear"></div>
+</div>
+</body>
+</html>
