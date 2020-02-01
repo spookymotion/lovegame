@@ -1,4 +1,5 @@
 const ICARUS_SPRITE_SIZE = 24;
+const ICARUS_RESIZE_SIZE = 72;
 const MOVING_LEFT = 0;
 const MOVING_RIGHT = 1;
 const JUMPING = 2;
@@ -45,10 +46,15 @@ icarus_controller = {
             icarus_controller.left.active = false;
         } else if (nextBehavior === JUMPING) {
             if(icarus_controller.allow_heart) {
+                let text = messageBuffer.getRandomMessage();
+                if(text === undefined) {
+                    text = "";
+                }
                 heart_movers.set(current_heart, new HeartMover(
                     new HeartPlayer(icarus_player.x + ICARUS_SPRITE_SIZE / 2, icarus_player.y - HEART_START_SIZE),
                     new HeartController(),
-                    current_heart));
+                    current_heart,
+                    text));
                 heart_movers.get(current_heart).heart_controller.changeBehavior(FLOATING_RIGHT);
                 current_heart++;
                 icarus_controller.allow_heart = false;
@@ -61,10 +67,15 @@ icarus_controller = {
             icarus_controller.left.active = false;
         } else if (nextBehavior >= FIST_PUMP) {
             if(icarus_controller.allow_heart) {
+                let text = messageBuffer.getRandomMessage();
+                if(text === undefined) {
+                    text = "";
+                }
                 heart_movers.set(current_heart, new HeartMover(
                     new HeartPlayer(icarus_player.x + ICARUS_SPRITE_SIZE / 2, icarus_player.y - HEART_START_SIZE),
                     new HeartController(),
-                    current_heart));
+                    current_heart,
+                    text));
                 heart_movers.get(current_heart).heart_controller.changeBehavior(FLOATING_RIGHT);
                 current_heart++;
                 icarus_controller.allow_heart = false;
@@ -88,8 +99,8 @@ icarus_controller = {
 icarus_player = {
     animation: new Animation(),// You don't need to setup Animation right away.
     jumping: true,
-    height: ICARUS_SPRITE_SIZE, width: ICARUS_SPRITE_SIZE,
-    x: 0, y: viewbuffer.canvas.height - ICARUS_SPRITE_SIZE,
+    height: ICARUS_RESIZE_SIZE, width: ICARUS_RESIZE_SIZE,
+    x: 0, y: viewbuffer.canvas.height * 4 - ICARUS_RESIZE_SIZE,
     x_velocity: 0, y_velocity: 0
 };
 
@@ -123,12 +134,12 @@ function move_icarus() {
     if (icarus_controller.left.active) {
         /* To change the animation, all you have to do is call animation.change. */
         icarus_player.animation.change(icarus_sprite_sheet.frame_sets[2], 15);
-        icarus_player.x_velocity -= 0.05;
+        icarus_player.x_velocity -= 0.25;
     }
 
     if (icarus_controller.right.active) {
         icarus_player.animation.change(icarus_sprite_sheet.frame_sets[1], 15);
-        icarus_player.x_velocity += 0.05;
+        icarus_player.x_velocity += 0.25;
     }
 
     /* If you're just standing still, change the animation to standing still and poop a heart. */
@@ -153,7 +164,7 @@ function move_icarus() {
 function render_icarus() {
     viewbuffer.drawImage(icarus_sprite_sheet.image, icarus_player.animation.frame * ICARUS_SPRITE_SIZE,
         0, ICARUS_SPRITE_SIZE, ICARUS_SPRITE_SIZE,
-        Math.floor(icarus_player.x), Math.floor(icarus_player.y), ICARUS_SPRITE_SIZE, ICARUS_SPRITE_SIZE);
+        Math.floor(icarus_player.x), Math.floor(icarus_player.y), ICARUS_RESIZE_SIZE, ICARUS_RESIZE_SIZE);
 }
 
 function update_icarus_animation() {

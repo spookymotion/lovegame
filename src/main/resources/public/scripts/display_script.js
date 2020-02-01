@@ -3,9 +3,11 @@ let loop, render, resize;
 let heartControllers = {};
 let heartPlayers = {};
 
+const VIEW_SCALE = 1;
+
 render = function () {
     let canvas = $("#canvas")[0];
-    if(canvas !== undefined) {
+    if (canvas !== undefined) {
         canvas.width = $(window).innerWidth;
         canvas.height = $(window).innerHeight;
     }
@@ -46,50 +48,17 @@ loop = function (time_stamp) {
 
 
 resize = function () {
-    display.canvas.width = document.documentElement.clientWidth;
-    display.canvas.height = document.documentElement.clientHeight;
-    display.imageSmoothingEnabled = false;
+    let imageSmoothing = false;
+    let w = Math.floor(document.documentElement.clientWidth / VIEW_SCALE);
+    let h = Math.floor(document.documentElement.clientHeight / VIEW_SCALE);
+    display.canvas.width = w;
+    display.canvas.height = h;
+    viewbuffer.canvas.width = w;
+    viewbuffer.canvas.height = h;
+    display.imageSmoothingEnabled = imageSmoothing;
+    viewbuffer.imageSmoothingEnabled = imageSmoothing;
 };
 
-let MessageBuffer = function (pollingPeriodInSeconds, keepAliveInSeconds) {
-    this.messageBuffer = new Map(); // A map of id to message
-    this.keepaliveInSeconds = keepAliveInSeconds; // Number of seconds a message should be kept alive
-    this.pollingPeriodInSeconds = pollingPeriodInSeconds; // Number of seconds to wait before asking server for new messages
-
-};
-
-MessageBuffer.prototype = {
-    startPolling: function () {
-        let currentTimeInSeconds = Math.trunc(new Date().getTime() / 1000);
-        let oldestMessageDesired = currentTimeInSeconds - this.keepaliveInSeconds;
-        console.log("Polling DB for new messages");
-        let _t = this;
-        $.ajax({
-            url: 'http://localhost:8080/lovegame/display/'.concat(oldestMessageDesired),
-            success: function (data) {
-                let currentData = new Map();
-                data.map(row => currentData.set(row.id, row.message));
-
-                let currentIds = Array.from(currentData.keys());
-                console.log("Latest IDs - ".concat(currentIds.toString()));
-
-                let oldIds = Array.from(_t.messageBuffer.keys());
-                console.log("Old IDs - ".concat(oldIds.toString()));
-
-                const removeIds = oldIds.filter(id => !currentIds.includes(id));
-                const addIds = currentIds.filter(id => !oldIds.includes(id));
-
-                removeIds.forEach(id => _t.messageBuffer.delete(id));
-                addIds.forEach(id => _t.messageBuffer.set(id, currentData.get(id)));
-            },
-            complete: function (request, status) {
-                setTimeout(function () {
-                    _t.startPolling()
-                }, _t.pollingPeriodInSeconds * 1000);
-            }
-        });
-    }
-};
 
 let messageBuffer = new MessageBuffer(5, 5 * 60);
 
@@ -102,7 +71,7 @@ $(document).ready(function () {
 
     resize();
 
-    icarus_sprite_sheet.image.addEventListener("load", function(event) {// When the load event fires, do this:
+    icarus_sprite_sheet.image.addEventListener("load", function (event) {// When the load event fires, do this:
         window.requestAnimationFrame(loop);// Start the game loop.
     });
 

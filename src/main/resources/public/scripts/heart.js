@@ -1,7 +1,7 @@
 const HEART_START_SIZE = 5;
-const HEART_MAX_SIZE = 60;
-const HEART_MAX_VELOCITY = 0.1;
-const HEART_MAX_Y_VELOCITY = 0.5;
+const HEART_MAX_SIZE = 350;
+const HEART_MAX_VELOCITY = 1.5;
+const HEART_MAX_Y_VELOCITY = -2;
 const FLOATING_LEFT = 0;
 const FLOATING_RIGHT = 1;
 
@@ -28,7 +28,7 @@ HeartController.prototype = {
         this.behavior = required_behavior;
 
         let next_behavior;
-        if(required_behavior === FLOATING_LEFT) {
+        if (required_behavior === FLOATING_LEFT) {
             next_behavior = FLOATING_RIGHT;
         } else {
             next_behavior = FLOATING_LEFT;
@@ -75,23 +75,23 @@ HeartMover.prototype = {
 
         if (this.heart_controller.behavior === FLOATING_LEFT
             && Math.abs(this.heart_controller.x_velocity) <= HEART_MAX_VELOCITY) {
-            this.heart_controller.x_velocity -= 0.01;
+            this.heart_controller.x_velocity -= 0.1;
         }
 
         if (this.heart_controller.behavior === FLOATING_RIGHT
             && Math.abs(this.heart_controller.x_velocity) <= HEART_MAX_VELOCITY) {
-            this.heart_controller.x_velocity += 0.01;
+            this.heart_controller.x_velocity += 0.1;
         }
 
         if (Math.abs(this.heart_player.y_velocity) <= HEART_MAX_Y_VELOCITY) {
-            this.heart_controller.y_velocity -= 0.01;
+            this.heart_controller.y_velocity -= 0.5;
         }
 
         if (this.heart_player.height <= HEART_MAX_SIZE) {
-            this.heart_player.y += -0.5;
-            this.heart_player.x += -0.38;
-            this.heart_player.height += 0.5;
-            this.heart_player.width += 0.5;
+            this.heart_player.y += -3.0;
+            this.heart_player.x += -2.8;
+            this.heart_player.height += 3.0;
+            this.heart_player.width += 3.0;
         }
 
         this.heart_player.x += this.heart_controller.x_velocity;
@@ -107,13 +107,54 @@ HeartMover.prototype = {
             Math.floor(this.heart_player.x), Math.floor(this.heart_player.y),
             this.heart_player.width, this.heart_player.height);
 
-        if(this.heart_player.width >= HEART_MAX_SIZE) {
-            viewbuffer.font = "normal 7px Verdana";
-            viewbuffer.fillStyle = "#000000";
-            let text = "HTML5 Canvas Text";
-            this.text_box = viewbuffer.measureText(text);
-            viewbuffer.fillText(text, this.heart_player.x + 5, this.heart_player.y + 25, HEART_MAX_SIZE - 5);
+        if (this.heart_player.width >= HEART_MAX_SIZE) {
+            viewbuffer.font = "20px Arial";
+            viewbuffer.strokeStyle = "#000000";
+            viewbuffer.fillStyle = "#FFFFFF";
+            viewbuffer.lineWidth = 4;
+
+            let text = this.wordWrap(this.message, 32);
+            let currLine = 0;
+            text.forEach( line => {
+                let y_pos = currLine *  20;
+                viewbuffer.strokeText(line, Math.floor(this.heart_player.x) + 30,
+                    Math.floor(this.heart_player.y) + 100 + y_pos, HEART_MAX_SIZE - 30);
+                viewbuffer.fillText(line, Math.floor(this.heart_player.x) + 30,
+                    Math.floor(this.heart_player.y) + 100 + y_pos, HEART_MAX_SIZE - 30);
+                currLine++;
+            });
+
         }
+    },
+
+    wordWrap: function (str, maxWidth) {
+        let textArray = [];
+        let done = false;
+        let res = '';
+        while (str.length > maxWidth) {
+            let found = false;
+            // Inserts new line at first whitespace of the line
+            for (i = maxWidth - 1; i >= 0; i--) {
+                if (this.testWhite(str.charAt(i))) {
+                    textArray.push(str.slice(0, i));
+                    str = str.slice(i + 1);
+                    found = true;
+                    break;
+                }
+            }
+            // Inserts new line at maxWidth position, the word is too long to wrap
+            if (!found) {
+                textArray.push(str.slice(0, maxWidth));
+                str = str.slice(maxWidth);
+            }
+        }
+        textArray.push(str);
+        return textArray;
+    },
+
+    testWhite: function (x) {
+        let white = new RegExp(/^\s$/);
+        return white.test(x.charAt(0));
     }
 };
 
