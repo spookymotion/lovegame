@@ -95,8 +95,8 @@ let messageBuffer = new MessageBuffer(5, 5 * 60);
 
 $(document).ready(function () {
     messageBuffer.startPolling();
-    viewbuffer.canvas.width = 320;
-    viewbuffer.canvas.height = 160;
+    viewbuffer.canvas.width = 640;
+    viewbuffer.canvas.height = 320;
 
     window.addEventListener("resize", resize);
 

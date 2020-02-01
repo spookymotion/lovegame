@@ -46,7 +46,7 @@ icarus_controller = {
         } else if (nextBehavior === JUMPING) {
             if(icarus_controller.allow_heart) {
                 heart_movers.set(current_heart, new HeartMover(
-                    new HeartPlayer(icarus_player.x, icarus_player.y - HEART_START_SIZE),
+                    new HeartPlayer(icarus_player.x + ICARUS_SPRITE_SIZE / 2, icarus_player.y - HEART_START_SIZE),
                     new HeartController(),
                     current_heart));
                 heart_movers.get(current_heart).heart_controller.changeBehavior(FLOATING_RIGHT);
@@ -62,7 +62,7 @@ icarus_controller = {
         } else if (nextBehavior >= FIST_PUMP) {
             if(icarus_controller.allow_heart) {
                 heart_movers.set(current_heart, new HeartMover(
-                    new HeartPlayer(icarus_player.x, icarus_player.y - HEART_START_SIZE),
+                    new HeartPlayer(icarus_player.x + ICARUS_SPRITE_SIZE / 2, icarus_player.y - HEART_START_SIZE),
                     new HeartController(),
                     current_heart));
                 heart_movers.get(current_heart).heart_controller.changeBehavior(FLOATING_RIGHT);

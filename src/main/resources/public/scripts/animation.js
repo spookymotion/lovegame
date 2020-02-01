@@ -23,7 +23,6 @@ Animation.prototype = {
 
     /* Call this on each game cycle. */
     update: function () {
-
         this.count++;// Keep track of how many cycles have passed since the last frame change.
 
         if (this.count >= this.delay) {// If enough cycles have passed, we change the frame.
@@ -41,3 +40,4 @@ let viewbuffer, display;
 
 viewbuffer = document.createElement("canvas").getContext("2d");
 display = document.querySelector("canvas").getContext("2d");
+

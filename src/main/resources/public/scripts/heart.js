@@ -1,5 +1,5 @@
 const HEART_START_SIZE = 5;
-const HEART_MAX_SIZE = 25;
+const HEART_MAX_SIZE = 60;
 const HEART_MAX_VELOCITY = 0.1;
 const HEART_MAX_Y_VELOCITY = 0.5;
 const FLOATING_LEFT = 0;
@@ -7,7 +7,7 @@ const FLOATING_RIGHT = 1;
 
 let heart_movers = new Map();
 let heart_sprite = new Image();
-heart_sprite.src = "favicon.ico";
+heart_sprite.src = "heart.svg";
 
 
 let HeartController = function () {
@@ -23,7 +23,7 @@ HeartController.prototype = {
         if (typeof this.currentTimeout !== undefined) {
             clearTimeout(this.currentTimeout);
         }
-        this.timeoutInSeconds = 1;
+        this.timeoutInSeconds = 2;
         this.x_velocity = 0;
         this.behavior = required_behavior;
 
@@ -51,10 +51,12 @@ let HeartPlayer = function (start_x, start_y) {
 
 HeartPlayer.prototype = {};
 
-let HeartMover = function (heart_player, heart_controller, id) {
+let HeartMover = function (heart_player, heart_controller, id, message) {
     this.heart_player = heart_player;
     this.heart_controller = heart_controller;
     this.id = id;
+    this.message = message;
+    this.text_box = undefined;
     heart_movers.set(id, this);
 };
 
@@ -86,8 +88,10 @@ HeartMover.prototype = {
         }
 
         if (this.heart_player.height <= HEART_MAX_SIZE) {
-            this.heart_player.height += 0.05;
-            this.heart_player.width += 0.05;
+            this.heart_player.y += -0.5;
+            this.heart_player.x += -0.38;
+            this.heart_player.height += 0.5;
+            this.heart_player.width += 0.5;
         }
 
         this.heart_player.x += this.heart_controller.x_velocity;
@@ -99,10 +103,17 @@ HeartMover.prototype = {
     },
 
     render: function () {
-        viewbuffer.drawImage(heart_sprite, 0,
-            0, 16, 16,
+        viewbuffer.drawImage(heart_sprite, 0, 0, 190, 190,
             Math.floor(this.heart_player.x), Math.floor(this.heart_player.y),
             this.heart_player.width, this.heart_player.height);
+
+        if(this.heart_player.width >= HEART_MAX_SIZE) {
+            viewbuffer.font = "normal 7px Verdana";
+            viewbuffer.fillStyle = "#000000";
+            let text = "HTML5 Canvas Text";
+            this.text_box = viewbuffer.measureText(text);
+            viewbuffer.fillText(text, this.heart_player.x + 5, this.heart_player.y + 25, HEART_MAX_SIZE - 5);
+        }
     }
 };
 
