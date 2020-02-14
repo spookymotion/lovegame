@@ -1,7 +1,7 @@
 const HEART_START_SIZE = 5;
 const HEART_MAX_SIZE = 350;
 const HEART_MAX_VELOCITY = 1.5;
-const HEART_MAX_Y_VELOCITY = -2;
+const HEART_MAX_Y_VELOCITY = -1;
 const FLOATING_LEFT = 0;
 const FLOATING_RIGHT = 1;
 
@@ -83,12 +83,12 @@ HeartMover.prototype = {
             this.heart_controller.x_velocity += 0.1;
         }
 
-        if (Math.abs(this.heart_player.y_velocity) <= HEART_MAX_Y_VELOCITY) {
-            this.heart_controller.y_velocity -= 0.5;
+        if (this.heart_controller.y_velocity >= HEART_MAX_Y_VELOCITY) {
+            this.heart_controller.y_velocity -= 0.1;
         }
 
         if (this.heart_player.height <= HEART_MAX_SIZE) {
-            this.heart_player.y += -3.0;
+            this.heart_player.y += -2.8;
             this.heart_player.x += -2.8;
             this.heart_player.height += 3.0;
             this.heart_player.width += 3.0;
@@ -108,18 +108,18 @@ HeartMover.prototype = {
             this.heart_player.width, this.heart_player.height);
 
         if (this.heart_player.width >= HEART_MAX_SIZE) {
-            viewbuffer.font = "20px Arial";
+            viewbuffer.font = "28px Crayonnette";
             viewbuffer.strokeStyle = "#000000";
             viewbuffer.fillStyle = "#FFFFFF";
             viewbuffer.lineWidth = 4;
 
-            let text = this.wordWrap(this.message, 32);
+            let text = this.wordWrap(this.message, 25);
             let currLine = 0;
             text.forEach( line => {
-                let y_pos = currLine *  20;
-                viewbuffer.strokeText(line, Math.floor(this.heart_player.x) + 30,
+                let y_pos = currLine * 25;
+                viewbuffer.strokeText(line, Math.floor(this.heart_player.x) + 40,
                     Math.floor(this.heart_player.y) + 100 + y_pos, HEART_MAX_SIZE - 30);
-                viewbuffer.fillText(line, Math.floor(this.heart_player.x) + 30,
+                viewbuffer.fillText(line, Math.floor(this.heart_player.x) + 40,
                     Math.floor(this.heart_player.y) + 100 + y_pos, HEART_MAX_SIZE - 30);
                 currLine++;
             });

@@ -9,7 +9,7 @@ let current_heart = 1;
 let icarus_controller;
 let icarus_player;
 let icarus_sprite_sheet;
-let new_heart_timeout_in_seconds = 10;
+let new_heart_timeout_in_seconds = 5;
 
 icarus_controller = {
     currentTimeout: undefined,
@@ -51,7 +51,7 @@ icarus_controller = {
                     text = "";
                 }
                 heart_movers.set(current_heart, new HeartMover(
-                    new HeartPlayer(icarus_player.x + ICARUS_SPRITE_SIZE / 2, icarus_player.y - HEART_START_SIZE),
+                    new HeartPlayer(icarus_player.x + 20 + ICARUS_SPRITE_SIZE / 2, icarus_player.y - HEART_START_SIZE),
                     new HeartController(),
                     current_heart,
                     text));
@@ -154,9 +154,9 @@ function move_icarus() {
     icarus_player.x_velocity *= 0.9;
     icarus_player.y_velocity *= 0.9;
 
-    if (icarus_player.y + icarus_player.height > viewbuffer.canvas.height - 2) {
+    if (icarus_player.y + icarus_player.height > viewbuffer.canvas.height - 20) {
         icarus_player.jumping = false;
-        icarus_player.y = viewbuffer.canvas.height - 2 - icarus_player.height;
+        icarus_player.y = viewbuffer.canvas.height - 20 - icarus_player.height;
         icarus_player.y_velocity = 0;
     }
 }

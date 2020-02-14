@@ -16,15 +16,15 @@ render = function () {
     viewbuffer.fillStyle = "#7ec0ff";
     viewbuffer.fillRect(0, 0, viewbuffer.canvas.width, viewbuffer.canvas.height);
     viewbuffer.strokeStyle = "#8ed0ff";
-    viewbuffer.lineWidth = 10;
+    viewbuffer.lineWidth = 80;
     viewbuffer.beginPath();
     viewbuffer.moveTo(0, 0);
-    viewbuffer.bezierCurveTo(40, 20, 40, 0, viewbuffer.canvas.width, 0);
+    viewbuffer.bezierCurveTo(40, 80, 40, 0, viewbuffer.canvas.width, 0);
     viewbuffer.moveTo(0, 0);
-    viewbuffer.bezierCurveTo(40, 20, 40, 20, viewbuffer.canvas.width, 0);
+    viewbuffer.bezierCurveTo(40, 80, 40, 80, viewbuffer.canvas.width, 0);
     viewbuffer.stroke();
     viewbuffer.fillStyle = "#009900";
-    viewbuffer.fillRect(0, viewbuffer.canvas.height - 4, viewbuffer.canvas.width, 4);
+    viewbuffer.fillRect(0, viewbuffer.canvas.height - 25, viewbuffer.canvas.width, 25);
 
     render_icarus();
     heart_movers.forEach(heart_mover => heart_mover.render());

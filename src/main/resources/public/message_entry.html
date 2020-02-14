@@ -5,7 +5,7 @@
     <script src="jquery-3.4.1.min.js"></script>
     <script src="scripts/entry_script.js"></script>
 </head>
-<body>
+<body onload="redrawMessageList()">
 <div id="root">
     <form id="entryform" name="entryform">
         <h3>New Message</h3>
@@ -24,9 +24,10 @@
             <input id="submit" onclick="newMessage();return false;" type="button" value="submit">
         </div>
     </form>
-    <div id="clear"></div>
 </div>
-<div id="clear"></div>
+<div id="message_list_div"></div>
+<ul id="message_list">
+</ul>
 </div>
 </body>
 </html>

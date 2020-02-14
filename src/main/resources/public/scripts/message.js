@@ -2,7 +2,10 @@ let MessageBuffer = function (pollingPeriodInSeconds, keepAliveInSeconds) {
     this.messageBuffer = new Map(); // A map of id to message
     this.keepaliveInSeconds = keepAliveInSeconds; // Number of seconds a message should be kept alive
     this.pollingPeriodInSeconds = pollingPeriodInSeconds; // Number of seconds to wait before asking server for new messages
-
+    this.messageBuffer.set(1, "These messages were provided by Mystery Date attendees like you!");
+    this.messageBuffer.set(2, "If you would like to send a love message to someone, just ask our cupid Anya Nuttz!");
+    this.messageBuffer.set(3, "Who knows, the person who you admire could see your message and it could spark a beautiful Mystery Date!");
+    this.alwaysKeep = Array.from(this.messageBuffer.keys());
 };
 
 MessageBuffer.prototype = {
@@ -26,7 +29,11 @@ MessageBuffer.prototype = {
                 const removeIds = oldIds.filter(id => !currentIds.includes(id));
                 const addIds = currentIds.filter(id => !oldIds.includes(id));
 
-                removeIds.forEach(id => _t.messageBuffer.delete(id));
+                removeIds.forEach(id => {
+                    if(!_t.alwaysKeep.includes(id)) {
+                        _t.messageBuffer.delete(id);
+                    }
+                });
                 addIds.forEach(id => _t.messageBuffer.set(id, currentData.get(id)));
             },
             complete: function (request, status) {

@@ -4,27 +4,17 @@ import static com.rjnthree.JsonUtil.json;
 import static com.rjnthree.RouteConstants.API;
 import static spark.Spark.awaitInitialization;
 import static spark.Spark.before;
+import static spark.Spark.get;
 import static spark.Spark.options;
 import static spark.Spark.port;
-import static spark.Spark.redirect;
 import static spark.Spark.staticFileLocation;
 import static spark.Spark.threadPool;
-import static spark.Spark.get;
-import static spark.Spark.post;
-
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.util.Arrays;
 
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import spark.Request;
-import spark.Response;
 import spark.ResponseTransformer;
-import spark.Route;
 
 
 public class App 
@@ -51,7 +41,8 @@ public class App
 
             // Internal routes
             get(API.DISPLAY, new DisplayRoute(jdbi), transformer);
-            post(API.MESSAGE_ENTRY, new MessageEntryRoute(jdbi), transformer);
+            get(API.MESSAGE_ENTRY, new MessageEntryRoute(jdbi), transformer);
+            get(API.MESSAGE_DELETE, new MessageDeleteRoute(jdbi), transformer);
 
             get(API.MESSAGE_REDIRECT, (request, response) -> {
                 response.redirect("/message_entry.html");

@@ -1,6 +1,5 @@
 package com.rjnthree;
 
-import java.sql.Connection;
 import java.util.Optional;
 
 import org.jdbi.v3.core.Jdbi;
@@ -22,6 +21,10 @@ public class MessageEntryRoute implements Route {
 
         String message = Optional.ofNullable(request.params(RouteConstants.PATHPARAM.MESSAGE))
                 .orElseThrow(() -> new Exception("You need to provide the parameter: " + RouteConstants.PATHPARAM.MESSAGE));
+
+        jdbi.useExtension(MessageDao.class,
+                messageDao -> messageDao.insertMessage(author, message));
+
         return null;
     }
 }
