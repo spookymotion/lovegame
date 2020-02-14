@@ -1,7 +1,7 @@
 const HEART_START_SIZE = 5;
 const HEART_MAX_SIZE = 350;
 const HEART_MAX_VELOCITY = 1.5;
-const HEART_MAX_Y_VELOCITY = -1;
+const HEART_MAX_Y_VELOCITY = -0.5;
 const FLOATING_LEFT = 0;
 const FLOATING_RIGHT = 1;
 
@@ -113,13 +113,13 @@ HeartMover.prototype = {
             viewbuffer.fillStyle = "#FFFFFF";
             viewbuffer.lineWidth = 4;
 
-            let text = this.wordWrap(this.message, 25);
+            let text = this.wordWrap(this.message, 22);
             let currLine = 0;
             text.forEach( line => {
                 let y_pos = currLine * 25;
-                viewbuffer.strokeText(line, Math.floor(this.heart_player.x) + 40,
+                viewbuffer.strokeText(line, Math.floor(this.heart_player.x) + 60,
                     Math.floor(this.heart_player.y) + 100 + y_pos, HEART_MAX_SIZE - 30);
-                viewbuffer.fillText(line, Math.floor(this.heart_player.x) + 40,
+                viewbuffer.fillText(line, Math.floor(this.heart_player.x) + 60,
                     Math.floor(this.heart_player.y) + 100 + y_pos, HEART_MAX_SIZE - 30);
                 currLine++;
             });

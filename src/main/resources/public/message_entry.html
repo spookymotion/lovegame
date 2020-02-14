@@ -5,7 +5,7 @@
     <script src="jquery-3.4.1.min.js"></script>
     <script src="scripts/entry_script.js"></script>
 </head>
-<body onload="redrawMessageList()">
+<body onload="onEntryFormLoad()">
 <div id="root">
     <form id="entryform" name="entryform">
         <h3>New Message</h3>
@@ -19,9 +19,9 @@
                 <option value="james">James Cerne</option>
                 <option value="matheus">Matheus Cabral</option>
             </select>
-            <label>Message:</label>
-            <input id="message_contents" type="text" maxlength=280>
-            <input id="submit" onclick="newMessage();return false;" type="button" value="submit">
+            <label for="message_contents">Message:</label>
+            <textarea id="message_contents" maxlength="280" wrap="soft"></textarea>
+            <input id="add_message" onclick="newMessage();return false;" type="button" value="submit">
         </div>
     </form>
 </div>

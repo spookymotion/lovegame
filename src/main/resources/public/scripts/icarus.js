@@ -147,7 +147,7 @@ function move_icarus() {
         icarus_player.animation.change(icarus_sprite_sheet.frame_sets[0], 20);
     }
 
-    icarus_player.y_velocity += 0.25;
+    icarus_player.y_velocity += 0.10;
 
     icarus_player.x += icarus_player.x_velocity;
     icarus_player.y += icarus_player.y_velocity;
