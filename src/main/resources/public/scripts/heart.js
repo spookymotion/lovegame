@@ -1,5 +1,5 @@
 const HEART_START_SIZE = 5;
-const HEART_MAX_SIZE = 350;
+let HEART_MAX_SIZE = viewbuffer.canvas.width / 2.5;
 const HEART_MAX_VELOCITY = 1.5;
 const HEART_MAX_Y_VELOCITY = -0.5;
 const FLOATING_LEFT = 0;
@@ -62,6 +62,7 @@ let HeartMover = function (heart_player, heart_controller, id, message) {
 
 HeartMover.prototype = {
     move_heart: function () {
+        HEART_MAX_SIZE = viewbuffer.canvas.width / 2.5;
         if (this.heart_player.x - 10 <= 0) {
             this.heart_player.x = 10;
             this.heart_controller.x_velocity = 0;
@@ -88,10 +89,10 @@ HeartMover.prototype = {
         }
 
         if (this.heart_player.height <= HEART_MAX_SIZE) {
-            this.heart_player.y += -2.8;
-            this.heart_player.x += -2.8;
-            this.heart_player.height += 3.0;
-            this.heart_player.width += 3.0;
+            this.heart_player.y += -6.5;
+            this.heart_player.x += -4.5 ;
+            this.heart_player.height += 8.0;
+            this.heart_player.width += 8.0;
         }
 
         this.heart_player.x += this.heart_controller.x_velocity;
@@ -103,24 +104,25 @@ HeartMover.prototype = {
     },
 
     render: function () {
+
         viewbuffer.drawImage(heart_sprite, 0, 0, 190, 190,
             Math.floor(this.heart_player.x), Math.floor(this.heart_player.y),
             this.heart_player.width, this.heart_player.height);
 
         if (this.heart_player.width >= HEART_MAX_SIZE) {
-            viewbuffer.font = "28px Crayonnette";
+            viewbuffer.font = "24px PressStart2P";
             viewbuffer.strokeStyle = "#000000";
             viewbuffer.fillStyle = "#FFFFFF";
-            viewbuffer.lineWidth = 4;
+            viewbuffer.lineWidth = 6;
 
             let text = this.wordWrap(this.message, 22);
             let currLine = 0;
             text.forEach( line => {
-                let y_pos = currLine * 25;
-                viewbuffer.strokeText(line, Math.floor(this.heart_player.x) + 60,
-                    Math.floor(this.heart_player.y) + 100 + y_pos, HEART_MAX_SIZE - 30);
-                viewbuffer.fillText(line, Math.floor(this.heart_player.x) + 60,
-                    Math.floor(this.heart_player.y) + 100 + y_pos, HEART_MAX_SIZE - 30);
+                let y_pos = currLine * 26;
+                viewbuffer.strokeText(line, Math.floor(this.heart_player.x) + 100,
+                    Math.floor(this.heart_player.y) + 180 + y_pos, HEART_MAX_SIZE - 30);
+                viewbuffer.fillText(line, Math.floor(this.heart_player.x) + 100,
+                    Math.floor(this.heart_player.y) + 180 + y_pos, HEART_MAX_SIZE - 30);
                 currLine++;
             });
 

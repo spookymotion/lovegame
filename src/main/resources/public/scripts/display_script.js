@@ -1,7 +1,12 @@
 let loop, render, resize;
 
+let GROUND_RECT_HEIGHT = 25;
+let MAX_PLANTS = 4;
 let heartControllers = {};
 let heartPlayers = {};
+
+let plantInstances = [];
+
 
 const VIEW_SCALE = 1;
 
@@ -24,7 +29,9 @@ render = function () {
     viewbuffer.bezierCurveTo(40, 80, 40, 80, viewbuffer.canvas.width, 0);
     viewbuffer.stroke();
     viewbuffer.fillStyle = "#009900";
-    viewbuffer.fillRect(0, viewbuffer.canvas.height - 25, viewbuffer.canvas.width, 25);
+    viewbuffer.fillRect(0, viewbuffer.canvas.height - GROUND_RECT_HEIGHT, viewbuffer.canvas.width, GROUND_RECT_HEIGHT);
+
+    //plantInstances.forEach(plant => plant.render());
 
     render_icarus();
     heart_movers.forEach(heart_mover => heart_mover.render());
@@ -60,7 +67,7 @@ resize = function () {
 };
 
 
-let messageBuffer = new MessageBuffer(5, 5 * 60);
+let messageBuffer = new MessageBuffer(5, 30 * 60);
 
 $(document).ready(function () {
     messageBuffer.startPolling();

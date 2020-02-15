@@ -1,5 +1,5 @@
 const ICARUS_SPRITE_SIZE = 24;
-const ICARUS_RESIZE_SIZE = 72;
+let ICARUS_RESIZE_SIZE = viewbuffer.canvas.width / 8;
 const MOVING_LEFT = 0;
 const MOVING_RIGHT = 1;
 const JUMPING = 2;
@@ -60,7 +60,7 @@ icarus_controller = {
                 icarus_controller.allow_heart = false;
                 icarus_controller.heart_timer = setTimeout(function () {
                     icarus_controller.allow_heart = true;
-                }, new_heart_timeout_in_seconds * 1000);
+                }, new_heart_timeout_in_seconds * 3000);
             }
             icarus_controller.right.active = false;
             icarus_controller.up.active = true;
@@ -110,7 +110,6 @@ each sprite image in the sprite sheet, just like a tile sheet and a tile map. */
 icarus_sprite_sheet = {
     frame_sets: [[8, 9], [7, 6, 5], [0, 1, 2]],// standing still, walk right, walk left
     image: new Image()
-
 };
 
 icarus_sprite_sheet.image.src = "sprites.png";// Start loading the image.
@@ -126,8 +125,8 @@ function move_icarus() {
         icarus_player.x = 10;
         icarus_controller.changeBehavior(MOVING_RIGHT);
 
-    } else if (icarus_player.x + icarus_player.width + 10 >= viewbuffer.canvas.width) {
-        icarus_player.x = viewbuffer.canvas.width - icarus_player.width - 10;
+    } else if (icarus_player.x + ICARUS_RESIZE_SIZE + 10 >= viewbuffer.canvas.width) {
+        icarus_player.x = viewbuffer.canvas.width - ICARUS_RESIZE_SIZE - 10;
         icarus_controller.changeBehavior(MOVING_LEFT);
     }
 
@@ -154,14 +153,15 @@ function move_icarus() {
     icarus_player.x_velocity *= 0.9;
     icarus_player.y_velocity *= 0.9;
 
-    if (icarus_player.y + icarus_player.height > viewbuffer.canvas.height - 20) {
+    if (icarus_player.y + ICARUS_RESIZE_SIZE > viewbuffer.canvas.height - 20) {
         icarus_player.jumping = false;
-        icarus_player.y = viewbuffer.canvas.height - 20 - icarus_player.height;
+        icarus_player.y = viewbuffer.canvas.height - 20 - ICARUS_RESIZE_SIZE;
         icarus_player.y_velocity = 0;
     }
 }
 
 function render_icarus() {
+    ICARUS_RESIZE_SIZE = viewbuffer.canvas.width / 8;
     viewbuffer.drawImage(icarus_sprite_sheet.image, icarus_player.animation.frame * ICARUS_SPRITE_SIZE,
         0, ICARUS_SPRITE_SIZE, ICARUS_SPRITE_SIZE,
         Math.floor(icarus_player.x), Math.floor(icarus_player.y), ICARUS_RESIZE_SIZE, ICARUS_RESIZE_SIZE);

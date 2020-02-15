@@ -15,10 +15,10 @@ MessageBuffer.prototype = {
         console.log("Polling DB for new messages");
         let _t = this;
         $.ajax({
-            url: 'http://localhost:8080/lovegame/display/'.concat(oldestMessageDesired),
+            url: 'lovegame/display/'.concat(oldestMessageDesired),
             success: function (data) {
                 let currentData = new Map();
-                data.map(row => currentData.set(row.id, row.message));
+                JSON.parse(data).map(row => currentData.set(row.id, row.message));
 
                 let currentIds = Array.from(currentData.keys());
                 console.log("Latest IDs - ".concat(currentIds.toString()));
